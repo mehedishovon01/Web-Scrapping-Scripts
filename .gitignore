@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Additional
+corded-dragon-402919-f004bea09651.json
+test*
+
 # C extensions
 *.so
 
