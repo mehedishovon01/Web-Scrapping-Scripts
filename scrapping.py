@@ -38,15 +38,35 @@ COUNTRIES = {
     # Add more countries here
 }
 
-load_dotenv()
-GOOGLE_SHEET_CREDENTIALS = os.getenv('GOOGLE_SHEET_CREDENTIALS')
-GOOGLE_SHEET_NAME = 'Scrapping testing'
+try:
+    '''
+    Reason of the Google authentication is done first cause if the file or Google is not authenticated, it should be fixed before scraping. 
+    Otherwise, after scraping so much data it will need more time. It's a waste of time if it can't be exported.
+    '''
+    # Load .env file
+    load_dotenv()
 
-def scrape_stock_data(driver, wait, url):
+    # Authorization google spreadsheet & Spreadsheet name to write exported data
+    GOOGLE_SHEET_CREDENTIALS = os.getenv('GOOGLE_SHEET_CREDENTIALS')
+    GOOGLE_SHEET_NAME = 'Web Scrapping Data'
+
+    # Authorization google credentials & Open the spreadsheet(where 'GOOGLE_SHEET_NAME' is the name of my sheet)
+    credentials = pygsheets.authorize(service_file=GOOGLE_SHEET_CREDENTIALS)
+    spreadsheet = credentials.open(GOOGLE_SHEET_NAME)
+
+    # Initialize the Selenium Chrome driver with the specified options
+    driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    wait = WebDriverWait(driver, 10)
+    
+except Exception as error:
+    print(f'Exception while Initializing:-> {error}')
+
+
+def scrape_stock_data(url):
     """
     The function takes the URL of a country's stock performance page as an input. It uses a Selenium WebDriver to open the provided URL.
     It waits for the page to fully load by employing the WebDriverWait mechanism with a specified timeout (WAIT_TIMEOUT_SECONDS).
-    Finds and clicks on the tab with the attribute data-test-tab-id="1". The extracted data is stored as a list of dictionaries.
+    Finds and clicks on the tab with the attribute data-test-tab-id="1".
     :param driver:
     :param wait: WebDriverWait
     :param url: country url
@@ -96,16 +116,10 @@ def main():
     :return: None
     """
     try:
-        # Initialize the Selenium Chrome driver with the specified options
-        driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-        wait = WebDriverWait(driver, 10)
-
-        # Authorization google spreadsheet credentials
-        credentials = pygsheets.authorize(service_file=GOOGLE_SHEET_CREDENTIALS)
-
         for country, url in COUNTRIES.items():
             try:
-                country_performance = scrape_stock_data(driver, wait, url)
+                # Call function and pass perameters
+                country_performance = scrape_stock_data(url)
 
                 # Convert the list of dictionaries to a pandas DataFrame
                 df = pd.DataFrame(country_performance)

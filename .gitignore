@@ -4,8 +4,9 @@ __pycache__/
 *$py.class
 
 # Additional
-corded-dragon-402919-f004bea09651.json
+corded-dragon-*.json
 test*
+web_scrapping*
 
 # C extensions
 *.so

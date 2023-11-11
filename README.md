@@ -1,7 +1,7 @@
 # Introduction
 This is a web scrapping with Selenium script. When data is located in a hidden table that is revealed when click on a specific tab with `ex: data-test-tab-id="1," it may require a different approach. Need to simulate the click action on the tab and then scrape the data from the revealed table.
 
-#### _This often involves using libraries like Selenium to interact with the web page._
+_This often involves using libraries like Selenium to interact with the web page._
 <br />
 
 # Setup
