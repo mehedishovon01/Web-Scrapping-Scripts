@@ -107,7 +107,7 @@ def scrape_stock_data(url):
     return country_performance
 
 
-def main():
+def processandExport():
     """
     This function uses to authenticate with Google Sheets & WebDriver Initialization using the specified credentials file
     Also Selenium web scraping using the ChromeDriverManager. It calls the scrape_stock_data function to scrape stock performance. 
@@ -154,6 +154,7 @@ def main():
 
 if __name__ == "__main__":
     start = time.time()
-    main()
+    # Step 1: Process and Write to spreadsheet
+    processandExport()
     # Print the executable time need this script
     print(f'This script took {round(time.time() - start, 2)} seconds to generate the results')
